@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.userMapper">
+
+ <insert id="create">
+ 	insert into member(username, password, cnt, bldname, addr, name, code) 
+ 	values(#{username}, #{password}, 0, #{bldname}, #{addr}, #{name}, member_code.nextval)
+ </insert>
+
+ <select id="read" resultType="com.test.model.TestModel">
+ 	select * from member where username = #{username}
+ </select>
+ 
+ <select id="pdf" resultType="com.test.model.Ktoto">
+ 	select * from ktoto where username = #{username}
+ </select>
+ 
+ <select id="count" resultType="java.lang.Integer">
+ 	select cnt from member where username = #{username}
+ </select>
+ 
+  <select id="exist" resultType="java.lang.Integer">
+ 	select count(*) from member where username = #{username}
+ </select>
+ 
+ <select id="success">
+ 	update member set cnt = 0 where username = #{username}
+ </select>
+ 
+ <select id="update">
+ 	update member set cnt = cnt + 1 where username = #{username}
+ </select>
+ 
+ <delete id="delete">
+ 	delete from member 
+ 	where username = #{username} 
+ 	and password = #{password}
+ </delete>
+
+</mapper>

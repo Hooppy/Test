@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sws="http://www.springframework.org/schema/web-services"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        
+    <context:component-scan base-package="com.test.*" />
+    
+    <!-- Dispatcher Servlet이 요청을 받으면 먼저 @RequestMapping의 요청 조건에 맞는지 확인한다.
+	요청을 처리할 핸들러를 찾지 못하면 해당 요청은 정적 리소스라고 판단하여 Default Servlet으로 넘긴다. -->
+	<mvc:default-servlet-handler />
+    
+    <!-- DefaultAnnotationHandlerMapping이 자동 등록되도록 설정 -->
+    <mvc:annotation-driven />
+    
+    <!-- resources mapping을 사용하게 되면 두 개 이상의 핸들러 매핑을 사용하게 되는 것이므로
+    DefaultAnnotationHandlerMapping을 사용하지 않게 되기 때문에 DefaultAnnotationHandlerMapping을 설정하도록 해야한다. -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+    
+    <bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>		  
+	
+	<bean id="errorController" class="com.test.controller.ErrorController">
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="defaultHandler" ref="errorController" />
+	</bean>
+	
+</beans>
